@@ -14,34 +14,43 @@ from .ignorefieldtopping import Topping
 class RecipesTopping(Topping):
     KEY = "recipes"
 
+    def _item_str(self, item):
+        name = ""
+        metadata = None
+        count = 1
+        type = ""
+        if "name" in item:
+            name = item["name"]
+        if "metadata" in item:
+            metadata = item["metadata"]
+        if "count" in item:
+            count = item["count"]
+        if "type" in item:
+            type = item["type"]
+        return "%s_%s:%sx%s" % (type, name, metadata, count)
+
     def filter(self, object1, object2):
         changed = {}
 
         def make_map(recipes):
-                rec_map = {}
-                for rec in recipes:
-                    key = ""
-                    if rec["type"] == "shape":
-                        for row in rec["shape"]:
-                            for col in row:
-                                if ":" in str(col):
-                                    key += "x."
-                                else:
-                                    key += str(col) + "."
-                            key += ","
-                    else:
-                        for item in rec["ingredients"]:
-                            if ":" in str(item):
-                                key += "x."
-                            else:
-                                key += str(item) + "."
-                    rec_map[key] = rec
-                return rec_map
+            """Makes a temporary map with unique keys per-recipe from a list"""
+            rec_map = {}
+            for rec in recipes:
+                key = ""
+                if rec["type"] == "shape":
+                    for row in rec["shape"]:
+                        for item in row:
+                            if item:
+                                key += self._item_str(item)
+                                key += ","
+                else:
+                    for item in rec["ingredients"]:
+                        key += self._item_str(item)
+                        key += ","
+                rec_map[key] = rec
+            return rec_map
 
         for id in object1:
-            if ":" in id:
-                continue
-
             if id not in object2:
                 changed[id] = [object1[id], None]
                 continue
@@ -72,9 +81,6 @@ class RecipesTopping(Topping):
                 changed[id] = [changed1, changed2]
 
         for id in object2:
-            if ":" in id:
-                continue
-
             if id not in object1:
                 changed[id] = [None, object2[id]]
                 continue
@@ -82,12 +88,35 @@ class RecipesTopping(Topping):
         return changed
 
     def equal(self, rec1, rec2):
-        if rec1["amount"] != rec2["amount"]:
+        def items_equal(i1, i2):
+            if not i1 and not i2:
+                # Both are None in cases of, say, rails.
+                return True
+            elif not i1 or not i2:
+                # But one being None and the other not is a difference.
+                return False
+
+            if ("count" in i1) != ("count" in i2):
+                return False
+            elif "count" in i1 and i1["count"] != i2["count"]:
+                return False
+            if ("metadata" in i1) != ("metadata" in i2):
+                return False
+            elif "metadata" in i1 and i1["metadata"] != i2["metadata"]:
+                return False
+            if ("name" in i1) != ("name" in i2):
+                return False
+            elif "name" in i1 and i1["name"] != i2["name"]:
+                return False
+            if ("type" in i1) != ("type" in i2):
+                return False
+            elif "type" in i1 and i1["type"] != i2["type"]:
+                return False
+            return True
+
+        if not items_equal(rec1["makes"], rec2["makes"]):
             return False
-        if rec1["makes"]["id"] != rec2["makes"]["id"]:
-            return False
-        if rec1["type"] != rec2["type"]:
-            return False
+
         if rec1["type"] == "shape":
             sh1 = rec1["shape"]
             sh2 = rec2["shape"]
@@ -97,13 +126,12 @@ class RecipesTopping(Topping):
                 if len(sh1[i]) != len(sh2[i]):
                     return False
                 for j in range(len(sh1[i])):
-                    if (not (":" in str(sh1[i][j]) and
-                             ":" in str(sh2[i][j])) and
-                        sh1[i][j] != sh2[i][j]):
+                    if not items_equal(sh1[i][j], sh2[i][j]):
                         return False
         else:
-            i1 = [x["id"] if "id" in x else None for x in rec1["ingredients"]]
-            i2 = [x["id"] if "id" in x else None for x in rec2["ingredients"]]
+            # Doesn't handle duplicates...
+            i1 = [self._item_str(x) for x in rec1["ingredients"]]
+            i2 = [self._item_str(x) for x in rec2["ingredients"]]
             for item in i1:
                 if item not in i2:
                     return False

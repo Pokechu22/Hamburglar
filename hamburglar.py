@@ -72,7 +72,7 @@ if __name__ == '__main__':
 
     for o, a in opts:
         if o in ("-o", "--output"):
-            output = open(a, "ab")
+            output = open(a, "wb")
         elif o in ("-c", "--compact"):
             compact = True
 
