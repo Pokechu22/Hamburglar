@@ -13,4 +13,4 @@ from .ignorefieldtopping import IgnoreFieldTopping
 
 class SoundsTopping(IgnoreFieldTopping):
     KEY = "sounds"
-    IGNORE = ('versions',)
+    IGNORE = ('field',)
