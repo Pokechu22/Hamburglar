@@ -66,6 +66,8 @@ class RecipesTopping(Topping):
             changed2 = []
 
             for key in obj1:
+                if key == "id": continue
+
                 if key not in obj2:
                     changed1.append(obj1[key])
                     continue
@@ -74,6 +76,8 @@ class RecipesTopping(Topping):
                     changed2.append(obj2[key])
 
             for key in obj2:
+                if key == "id": continue
+
                 if key not in obj1:
                     changed2.append(obj2[key])
 
@@ -88,7 +92,7 @@ class RecipesTopping(Topping):
         return changed
 
     def equal(self, rec1, rec2):
-        def items_equal(i1, i2):
+        def items_equal(i1, i2, strictmeta = True):
             if not i1 and not i2:
                 # Both are None in cases of, say, rails.
                 return True
@@ -100,21 +104,22 @@ class RecipesTopping(Topping):
                 return False
             elif "count" in i1 and i1["count"] != i2["count"]:
                 return False
-            if ("metadata" in i1) != ("metadata" in i2):
-                return False
+            if ("metadata" in i1) and not ("metadata" in i2):
+                if strictmeta or i1["metadata"] != 0:
+                    return False
+            elif ("metadata" in i2) and not ("metadata" in i1):
+                if strictmeta or i2["metadata"] != 0:
+                    return False
             elif "metadata" in i1 and i1["metadata"] != i2["metadata"]:
                 return False
             if ("name" in i1) != ("name" in i2):
                 return False
             elif "name" in i1 and i1["name"] != i2["name"]:
                 return False
-            if ("type" in i1) != ("type" in i2):
-                return False
-            elif "type" in i1 and i1["type"] != i2["type"]:
-                return False
+
             return True
 
-        if not items_equal(rec1["makes"], rec2["makes"]):
+        if not items_equal(rec1["makes"], rec2["makes"], strictmeta=False):
             return False
 
         if rec1["type"] == "shape":
