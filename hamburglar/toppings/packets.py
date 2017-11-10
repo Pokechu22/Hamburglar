@@ -21,7 +21,8 @@ class PacketsTopping(Topping):
         if isinstance(entry1, dict):
             if "operation" in entry1 and "operation" in entry2:
                 if entry1["operation"] == entry2["operation"]:
-                    if entry1["operation"] in ("store", "switch", "if"):
+                    if entry1["operation"] in ("store", "switch",
+                                               "if", "interfacecall"):
                         # These operations often change data based off of
                         # obfuscation - don't worry about them
                         return True
