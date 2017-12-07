@@ -122,6 +122,9 @@ class RecipesTopping(Topping):
         if not items_equal(rec1["makes"], rec2["makes"], strictmeta=False):
             return False
 
+        if rec1["type"] != rec2["type"]:
+            return False
+
         if rec1["type"] == "shape":
             sh1 = rec1["shape"]
             sh2 = rec2["shape"]
