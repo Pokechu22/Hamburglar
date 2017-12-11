@@ -8,8 +8,8 @@ To Public License, Version 2, as published by Sam Hocevar. See
 http://sam.zoy.org/wtfpl/COPYING for more details.
 """
 
-from .nestedtopping import NestedTopping
+from .topping import Topping
 
 
-class TagsTopping(NestedTopping):
+class TagsTopping(Topping):
     KEY = "tags"
