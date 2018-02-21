@@ -16,8 +16,8 @@ from collections import deque
 
 
 def usage():
-    print "Example usage:",
-    print "Burger/munch.py -c 1.5.jar 1.6.jar | Hamburglar/hamburglar.py"
+    print("Example usage:")
+    print("Burger/munch.py -c 1.5.jar 1.6.jar | Hamburglar/hamburglar.py")
 
 
 def import_toppings():
@@ -62,8 +62,8 @@ if __name__ == '__main__':
                 "compact"
             ]
         )
-    except getopt.GetoptError, err:
-        print str(err)
+    except getopt.GetoptError as err:
+        print(str(err))
         sys.exit(1)
 
     # Default options
@@ -72,7 +72,7 @@ if __name__ == '__main__':
 
     for o, a in opts:
         if o in ("-o", "--output"):
-            output = open(a, "wb")
+            output = open(a, "w")
         elif o in ("-c", "--compact"):
             compact = True
 
@@ -85,24 +85,24 @@ if __name__ == '__main__':
             try:
                 versions += json.load(open(path, "r"))
             except:
-                print "Error: Can't load ", path
+                print("Error: Can't load " + path)
                 sys.exit(3)
     else:
         # Load JSON objects from stdin
         if sys.stdin.isatty():
-            print "Error: The Hamburglar needs to be fed burgers\n"
+            print("Error: The Hamburglar needs to be fed burgers\n")
             usage()
             sys.exit(3)
 
         try:
             versions = json.load(sys.stdin)
-        except ValueError, err:
-            print "Error: Invalid input (" + str(err) + ")\n"
+        except ValueError as err:
+            print("Error: Invalid input (" + str(err) + ")\n")
             usage()
             sys.exit(5)
 
     if len(versions) < 2:
-        print "Error: The Hamburglar needs more burgers\n"
+        print("Error: The Hamburglar needs more burgers\n")
         usage()
         sys.exit(2)
 
