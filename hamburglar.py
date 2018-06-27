@@ -51,8 +51,36 @@ def import_toppings():
 
     return toppings
 
+def compare(toppings, a, b):
+    # Compare versions
+    aggregate = {}
 
-if __name__ == '__main__':
+    for topping in toppings:
+        if topping.KEY == None:
+            continue
+        keys = topping.KEY.split(".")
+        obj1 = a
+        obj2 = b
+        target = aggregate
+        skip = False
+        for key in keys:
+            if not (key in obj1 and key in obj2):
+                skip = True
+                break
+            obj1 = obj1[key]
+            obj2 = obj2[key]
+        if skip:
+            continue
+        for key in keys[:-1]:
+            if not key in target:
+                target[key] = {}
+            target = target[key]
+
+        target[keys[-1]] = topping().filter(obj1, obj2)
+
+    return aggregate
+
+def main():
     try:
         opts, args = getopt.gnu_getopt(
             sys.argv[1:],
@@ -105,35 +133,19 @@ if __name__ == '__main__':
         print("Error: The Hamburglar needs more burgers\n")
         usage()
         sys.exit(2)
+    elif len(versions) > 2:
+        print("Error: Burger overload\n")
+        usage()
+        sys.exit(2)
 
     # Compare versions
-    aggregate = {}
-
-    for topping in toppings:
-        if topping.KEY == None:
-            continue
-        keys = topping.KEY.split(".")
-        obj1 = versions[0]
-        obj2 = versions[1]
-        target = aggregate
-        skip = False
-        for key in keys:
-            if not (key in obj1 and key in obj2):
-                skip = True
-                break
-            obj1 = obj1[key]
-            obj2 = obj2[key]
-        if skip:
-            continue
-        for key in keys[:-1]:
-            if not key in target:
-                target[key] = {}
-            target = target[key]
-
-        target[keys[-1]] = topping().filter(obj1, obj2)
+    result = compare(toppings, versions[0], versions[1])
 
     # Output results
     if not compact:
-        json.dump(aggregate, output, sort_keys=True, indent=4)
+        json.dump(result, output, sort_keys=True, indent=4)
     else:
-        json.dump(aggregate, output)
+        json.dump(result, output)
+
+if __name__ == '__main__':
+    main()
