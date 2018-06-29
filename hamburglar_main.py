@@ -8,13 +8,6 @@ To Public License, Version 2, as published by Sam Hocevar. See
 http://sam.zoy.org/wtfpl/COPYING for more details.
 """
 
-import os
-import sys
-import getopt
-import json
-from collections import deque
-
-
 def usage():
     print("Example usage:")
     print("Burger/munch.py -c 1.5.jar 1.6.jar | Hamburglar/hamburglar.py")
@@ -24,6 +17,8 @@ def import_toppings():
     """
     Attempts to load all available toppings.
     """
+    import os
+
     this_dir = os.path.dirname(__file__)
     toppings_dir = os.path.join(this_dir, "hamburglar", "toppings")
     from_list = ["topping"]
@@ -81,6 +76,10 @@ def compare(toppings, a, b):
     return aggregate
 
 def main():
+    import getopt
+    import sys
+    import json
+
     try:
         opts, args = getopt.gnu_getopt(
             sys.argv[1:],
