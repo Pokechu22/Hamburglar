@@ -13,3 +13,4 @@ from .topping import Topping
 
 class AchivementsTopping(Topping):
     KEY = "achievements"
+    NAME = "Achievements"

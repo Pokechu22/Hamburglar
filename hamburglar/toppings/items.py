@@ -13,4 +13,5 @@ from .ignorefieldtopping import IgnoreFieldTopping
 
 class ItemsTopping(IgnoreFieldTopping):
     KEY = "items.item"
+    NAME = "Items"
     IGNORE = ('field', 'class', 'register_method')

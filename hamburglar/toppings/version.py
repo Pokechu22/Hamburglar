@@ -13,3 +13,4 @@ from .topping import Topping
 
 class VersionTopping(Topping):
     KEY = "version"
+    NAME = "Version"

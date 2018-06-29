@@ -13,4 +13,5 @@ from .ignorefieldtopping import IgnoreFieldTopping
 
 class BiomesTopping(IgnoreFieldTopping):
     KEY = "biomes.biome"
+    NAME = "Biomes"
     IGNORE = ('field', 'class')

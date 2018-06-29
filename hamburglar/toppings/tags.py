@@ -13,3 +13,4 @@ from .topping import Topping
 
 class TagsTopping(Topping):
     KEY = "tags"
+    NAME = "Tags"

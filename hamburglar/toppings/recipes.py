@@ -13,6 +13,7 @@ from .ignorefieldtopping import Topping
 
 class RecipesTopping(Topping):
     KEY = "recipes"
+    NAME = "Recipes"
 
     def _item_str(self, item):
         name = ""

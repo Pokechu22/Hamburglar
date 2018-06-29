@@ -13,6 +13,7 @@ from .topping import Topping
 
 class PacketsTopping(Topping):
     KEY = "packets.packet"
+    NAME = "Packets"
     IGNORE = ('class', 'field', 'condition')
 
     def equal(self, entry1, entry2):

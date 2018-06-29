@@ -13,3 +13,4 @@ from .topping import Topping
 
 class StatsTopping(Topping):
     KEY = "stats"
+    NAME = "Stats"

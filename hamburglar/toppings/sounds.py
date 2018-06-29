@@ -13,4 +13,5 @@ from .ignorefieldtopping import IgnoreFieldTopping
 
 class SoundsTopping(IgnoreFieldTopping):
     KEY = "sounds"
+    NAME = "Sounds"
     IGNORE = ('field',)

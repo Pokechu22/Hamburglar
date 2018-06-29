@@ -13,4 +13,5 @@ from .ignorefieldtopping import IgnoreFieldTopping
 
 class TileEntitiesTopping(IgnoreFieldTopping):
     KEY = "tileentity.tileentities"
+    NAME = "Block entities"
     IGNORE = ('class')

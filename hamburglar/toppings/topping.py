@@ -11,6 +11,7 @@ http://sam.zoy.org/wtfpl/COPYING for more details.
 
 class Topping(object):
     KEY = None
+    NAME = "Unimplemented topping"
 
     def filter(self, object1, object2):
         changed = {}

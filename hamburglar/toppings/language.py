@@ -13,3 +13,4 @@ from .nestedtopping import NestedTopping
 
 class LanguageTopping(NestedTopping):
     KEY = "language"
+    NAME = "Language"
