@@ -14,4 +14,4 @@ from .ignorefieldtopping import IgnoreFieldTopping
 class BlocksTopping(IgnoreFieldTopping):
     KEY = "blocks.block"
     NAME = "Blocks"
-    IGNORE = ('class', 'field', 'enum_class', 'declared_in', 'field_name', 'predicate')
+    IGNORE = ('class', 'field', 'enum_class', 'declared_in', 'field_name', 'predicate', 'numeric_id', 'min_state_id', 'max_state_id')
