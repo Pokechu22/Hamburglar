@@ -14,7 +14,7 @@ from .ignorefieldtopping import IgnoreFieldTopping
 class EntitiesTopping(IgnoreFieldTopping):
     KEY = "entities.entity"
     NAME = "Entities"
-    IGNORE = ('class')
+    IGNORE = ('class', 'field')
 
 
 class ObjectsTopping(IgnoreFieldTopping):
