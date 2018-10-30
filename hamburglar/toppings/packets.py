@@ -46,3 +46,8 @@ class PacketsTopping(Topping):
             return entry1 == entry2
 
         return True
+
+class MetadataSerializersTopping(PacketsTopping):
+    KEY = "entities.dataserializers"
+    NAME = "Entity Metadata Serializers"
+    IGNORE = ('class', 'field', 'condition', 'type')
