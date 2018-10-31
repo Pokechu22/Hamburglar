@@ -20,4 +20,4 @@ class EntitiesTopping(IgnoreFieldTopping):
 class ObjectsTopping(IgnoreFieldTopping):
     KEY = "entities.object"
     NAME = "Objects"
-    IGNORE = ('class')
+    IGNORE = ('class', 'entity_id')
